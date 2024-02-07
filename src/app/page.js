@@ -41,7 +41,7 @@ export default function Home() {
   if (!isLoading){
     // console.log(data.result.airtableData)
     console.log(data)
-    if (data.length == 0) {
+    if (data.result == "") {
       return <div>Failed to load</div>
     }
     const paragraphs = data.result.airtableData.map((item, index) => {
