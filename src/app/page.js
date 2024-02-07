@@ -39,8 +39,9 @@ export default function Home() {
   if (error) return <div>Failed to load</div>
   if (isLoading) return <div>Loading...</div>
   if (!isLoading){
-    console.log(data.result.airtableData)
-    if (data.result.airtableData.length === 0) {
+    // console.log(data.result.airtableData)
+    console.log(data)
+    if (data.length == 0) {
       return <div>Failed to load</div>
     }
     const paragraphs = data.result.airtableData.map((item, index) => {
