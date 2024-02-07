@@ -22,7 +22,8 @@ export async function GET(request) {
     const airtableData = await fetchAirtableData(); // Simplified call
     return NextResponse.json({ result: airtableData });
   } catch (error) {
-    console.error("Error fetching Airtable data:", error);
-    return NextResponse.error(new Error("Failed to fetch Airtable data"));
+    return NextResponse.json({ result: "" });
+    // console.error("Error fetching Airtable data:", error);
+    // return NextResponse.error(new Error("Failed to fetch Airtable data"));
   }
 }
