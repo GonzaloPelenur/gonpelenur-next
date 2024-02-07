@@ -1,12 +1,59 @@
-import Image from "next/image";
+"use client";
+// import React from "react";
+// import { useEffect, useState } from "react";
+import useSWR from 'swr'
+
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json())
+
 
 export default function Home() {
-  return (
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [processedData, setProcessedData] = useState([]);
+  // useEffect(() => {
+  //   console.log("useEffect");
+  //   async function fetchData() {
+  //     console.log("fetch data")
+  //     try {
+  //       const response = await fetch("/api/airtable");
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log(data);
+  //         console.log("hello")
+  //         setProcessedData(data.result.airtableData);
+  //         setIsLoading(false); // Set isLoading to false when data is fetched
+  //       } else {
+  //         console.error("Error fetching data:", response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   }
+
+  //   fetchData();
+  // }, []);
+  // console.log(processedData);
+  // with single argument
+  const { data, isLoading, error } = useSWR('/api/airtable', fetcher)
+  // console.log(data,isLoading)
+  if (error) return <div>Failed to load</div>
+  if (isLoading) return <div>Loading...</div>
+  if (!isLoading){
+    console.log(data.result.airtableData)
+    const paragraphs = data.result.airtableData.map((item, index) => {
+
+      return (
+        <p key={index}>{item.Text}</p>
+      );
+    });
+    return (
     
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="text-4xl font-bold text-align-left">Gonzalo Pelenur</h1>
-      <p>Hello! My name is Gonzalo Pelenur, and I am a Harvard Computer Science student. I have 6+ years of programming experience, mainly programming on Python, JavaScript, and C++. I'm currently working at the Derek Bok Center for Teaching and Learning on Harvard University as a Generative AI Course Asistant (GAICA). I enjoy working on all sorts of software engineering projects, that could be around systems programming, machine learning, networks, full stack development, data science, or more.</p>
-      <p>Some relevant courses that I took at Harvard or I am currently taking are: CS61 Systems Programming, CS145 Networking At Scale, CS120 Algorithms & Limitations, STAT110 Statistics, CS124 Data Structures and Algorithms, AM120 Applied Linear Algebra and Big Data.</p>
-    </main>
-  );
+      <main className="flex min-h-screen flex-col items-center p-24">
+        <h1 className="text-4xl font-bold text-align-left">Gonzalo Pelenur</h1>
+
+        {paragraphs}
+      </main>
+    );
+  }
+  
 }
